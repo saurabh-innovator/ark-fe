@@ -40,7 +40,7 @@ export class FormsService {
     }))
   }
   getAllUserList() {
-    return this.http.get<any>(`${baseUrl}allUsers`, options).pipe(map(response => {
+    return this.http.get<any>(`${baseUrl}getAllUsers`, options).pipe(map(response => {
       return response;
     }))
   }

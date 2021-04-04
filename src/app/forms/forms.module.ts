@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsService } from './forms.service';
 import { HttpClientModule } from '@angular/common/http';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [UserFormComponent],
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     MatFormFieldModule,
     MatToolbarModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule
   ],
   providers: [FormsService]
 })

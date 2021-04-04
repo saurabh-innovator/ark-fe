@@ -1,43 +1,78 @@
-<div style="padding-top: 5%;">
-    Add user:
-    <form style="display: flex;flex-direction: column;padding-top: 5%;" [formGroup]="userForm" (ngSubmit)="saveUser()">
+<div style="padding-top: 5%; display: flex;">
+    <form style="display: flex;flex-direction: column;padding-top: 5%; width: 50%;" [formGroup]="userForm"
+        (ngSubmit)="saveUser()">
 
         <label style="padding-bottom: 10%; padding-left: 5%;">
             First Name:
-            <input type="text" formControlName="firstName">
+            <input type="text" formControlName="firstName" [(ngModel)]="currentUser.firstName">
         </label>
 
         <label style="padding-bottom: 10%; padding-left: 5%;">
             Last Name:
-            <input type="text" formControlName="lastName">
+            <input type="text" formControlName="lastName" [(ngModel)]="currentUser.lastName">
         </label>
 
         <label style="padding-bottom: 10%; padding-left: 5%;">
             Email:
-            <input type="text" formControlName="email">
+            <input [disabled]="updateUser" type="text" formControlName="email" [(ngModel)]="currentUser.email">
         </label>
 
         <label style="padding-bottom: 10%; padding-left: 5%;">
             Phone Number:
-            <input type="text" formControlName="phone">
+            <input type="text" formControlName="phone" [(ngModel)]="currentUser.phone">
         </label>
+        <button type="button" *ngIf="!updateUser" name="addUserButton" (click)="saveUser()">Add User</button>
+        <button type="button" *ngIf="updateUser" name="update" (click)="modifyUser()">Update User</button>
+        <mat-form-field>
+            <div>
+                <label>Upload profile picture</label>
+                <mat-toolbar>
+                    <!-- Display files names -->
+                    <input matInput [(value)]="fileAttr" readonly name="name" />
+
+                    <!-- Browse Button -->
+                    <button mat-flat-button color="primary">
+                        Browse File
+                    </button>
+                </mat-toolbar>
+                <!-- Fetch selected filed on change -->
+                <input type="file" #fileInput id="uploadFile" (change)="uploadFileEvt($event)" name="uploadFile"
+                    multiple="multiple" accept="image/*" />
+            </div>
+        </mat-form-field>
     </form>
+    <ng-container *ngIf="dataSource">
+        <table style="margin: 5% 5%;
+        width: 90%;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <mat-form-field>
-        <div>
-            <mat-toolbar>
-                <!-- Display files names -->
-                <input matInput [(value)]="fileAttr" readonly name="name" />
+            <!-- Email Column -->
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
 
-                <!-- Browse Button -->
-                <button mat-flat-button color="primary">
-                    Browse File
-                </button>
-            </mat-toolbar>
+            <!-- Phone Column -->
+            <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef> Phone </th>
+                <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+            </ng-container>
 
-            <!-- Fetch selected filed on change -->
-            <input type="file" #fileInput id="uploadFile" (change)="uploadFileEvt($event)" name="uploadFile"
-                multiple="multiple" accept="image/*" />
-        </div>
-    </mat-form-field>
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef> Edit </th>
+                <td mat-cell *matCellDef="let element">
+                    <button type="button" name="edit" (click)="editUser(element)">Edit</button>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef> Delete </th>
+                <td mat-cell *matCellDef="let element">
+                    <button type="button" name="delete" (click)="deleteUser(element.email)">Delete</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </ng-container>
 </div>

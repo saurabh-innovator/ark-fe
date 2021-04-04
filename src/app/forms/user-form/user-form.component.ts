@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FormsService } from '../forms.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-user-form',
@@ -17,12 +18,25 @@ export class UserFormComponent implements OnInit {
     profileImage: new FormControl('')
   });
 
+  displayedColumns = ['email', 'phone', 'edit', 'delete'];
+  dataSource: MatTableDataSource<any>;
+
   @ViewChild('fileInput') fileInput: ElementRef;
   fileAttr = 'Choose File';
+  currentUser = {
+    "firstName": "",
+    "lastName": "",
+    "email": "",
+    "phone": "",
+    "profileImage": ""
+  }
+  updateUser: boolean = false;
 
   constructor(private formService: FormsService) { }
 
   ngOnInit(): void {
+    this.getAlluser();
+    console.log(this.dataSource)
   }
 
   uploadFileEvt(imgFile: any) {
@@ -55,6 +69,7 @@ export class UserFormComponent implements OnInit {
     this.formService.createUser(this.userForm.value).toPromise()
       .then((res) => {
         console.log('Resp: ', res);
+        this.getAlluser();
       })
       .catch((err) => {
         console.log('Error: ', err);
@@ -65,7 +80,7 @@ export class UserFormComponent implements OnInit {
     // Api call for getting list of users.
     this.formService.getAllUserList().toPromise()
       .then((res) => {
-        console.log('Resp: ', res);
+        this.dataSource = res;
       })
       .catch((err) => {
         console.log('Error: ', err);
@@ -88,17 +103,25 @@ export class UserFormComponent implements OnInit {
     this.formService.deleteUser(email).toPromise()
       .then((res) => {
         console.log('Resp: ', res);
+        this.getAlluser();
       })
       .catch((err) => {
         console.log('Error: ', err);
       });
   }
 
-  editUser(email) {
+  editUser(row) {
+    this.currentUser = row;
+    this.updateUser = true;
+    this.userForm.get('email').disable();
+  }
+
+  modifyUser() {
     // Api call for modifying users.
-    this.formService.updateUser(this.userForm.value, email).toPromise()
+    this.formService.updateUser(this.userForm.value, this.userForm.get('email').value).toPromise()
       .then((res) => {
         console.log('Resp: ', res);
+        this.getAlluser();
       })
       .catch((err) => {
         console.log('Error: ', err);
