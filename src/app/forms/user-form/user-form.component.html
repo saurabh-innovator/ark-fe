@@ -1,0 +1,43 @@
+<div style="padding-top: 5%;">
+    Add user:
+    <form style="display: flex;flex-direction: column;padding-top: 5%;" [formGroup]="userForm" (ngSubmit)="saveUser()">
+
+        <label style="padding-bottom: 10%; padding-left: 5%;">
+            First Name:
+            <input type="text" formControlName="firstName">
+        </label>
+
+        <label style="padding-bottom: 10%; padding-left: 5%;">
+            Last Name:
+            <input type="text" formControlName="lastName">
+        </label>
+
+        <label style="padding-bottom: 10%; padding-left: 5%;">
+            Email:
+            <input type="text" formControlName="email">
+        </label>
+
+        <label style="padding-bottom: 10%; padding-left: 5%;">
+            Phone Number:
+            <input type="text" formControlName="phone">
+        </label>
+    </form>
+
+    <mat-form-field>
+        <div>
+            <mat-toolbar>
+                <!-- Display files names -->
+                <input matInput [(value)]="fileAttr" readonly name="name" />
+
+                <!-- Browse Button -->
+                <button mat-flat-button color="primary">
+                    Browse File
+                </button>
+            </mat-toolbar>
+
+            <!-- Fetch selected filed on change -->
+            <input type="file" #fileInput id="uploadFile" (change)="uploadFileEvt($event)" name="uploadFile"
+                multiple="multiple" accept="image/*" />
+        </div>
+    </mat-form-field>
+</div>
