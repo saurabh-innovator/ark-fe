@@ -1,26 +1,27 @@
 <div style="padding-top: 5%; display: flex;">
-    <form style="display: flex;flex-direction: column;padding-top: 5%; width: 50%;" [formGroup]="userForm"
+    <form style="display: flex;flex-direction: column;padding: 5%; width: 50%;" [formGroup]="userForm"
         (ngSubmit)="saveUser()">
 
-        <label style="padding-bottom: 10%; padding-left: 5%;">
-            First Name:
-            <input type="text" formControlName="firstName" [(ngModel)]="currentUser.firstName">
-        </label>
+        <mat-form-field appearance="standard">
+            <mat-label>First Name</mat-label>
+            <input matInput type="text" formControlName="firstName" [(ngModel)]="currentUser.firstName">
+        </mat-form-field>
 
-        <label style="padding-bottom: 10%; padding-left: 5%;">
-            Last Name:
-            <input type="text" formControlName="lastName" [(ngModel)]="currentUser.lastName">
-        </label>
+        <mat-form-field appearance="standard">
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text" formControlName="lastName" [(ngModel)]="currentUser.lastName">
+        </mat-form-field>
 
-        <label style="padding-bottom: 10%; padding-left: 5%;">
-            Email:
-            <input [disabled]="updateUser" type="text" formControlName="email" [(ngModel)]="currentUser.email">
-        </label>
+        <mat-form-field appearance="standard">
+            <mat-label>Email</mat-label>
+            <input matInput [disabled]="updateUser" type="text" formControlName="email" [(ngModel)]="currentUser.email">
+        </mat-form-field>
 
-        <label style="padding-bottom: 10%; padding-left: 5%;">
-            Phone Number:
-            <input type="text" formControlName="phone" [(ngModel)]="currentUser.phone">
-        </label>
+        <mat-form-field appearance="standard">
+            <mat-label>Phone Number</mat-label>
+            <input matInput type="text" formControlName="phone" [(ngModel)]="currentUser.phone">
+        </mat-form-field>
+
         <button type="button" *ngIf="!updateUser" name="addUserButton" (click)="saveUser()">Add User</button>
         <button type="button" *ngIf="updateUser" name="update" (click)="modifyUser()">Update User</button>
         <mat-form-field>
